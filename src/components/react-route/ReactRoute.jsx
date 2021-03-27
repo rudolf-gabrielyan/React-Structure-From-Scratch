@@ -1,13 +1,15 @@
 import { Route, useHistory } from 'react-router-dom';
 import router from "../../router";
-import helpers from "../../helpers/helpers";
+import { emitMiddlewares } from "../../helpers/helpers";
 
-export default function ReactRoute({ route, indexKey }) {
-    const { path, name, component: Component, children, meta = {}  } = route;
+export default function ReactRoute({ route, index }) {
+    const { path, name, component: Component, children, meta = {} } = route;
     const { layout: Layout } = meta;
 
     const history = useHistory();
 
+    console.log(history)
+    
     return (
         <Route
             path={ path }
@@ -15,15 +17,15 @@ export default function ReactRoute({ route, indexKey }) {
             render={({ match: { url } }) => ([
                 <Route
                     path={`${url}/`}
-                    key={indexKey}
+                    key={index}
                     render={() => {
                         if (route?.meta?.middleware) {
-                            helpers.runMiddlewares({ history }, route.meta.middleware);
+                            emitMiddlewares(history, route.meta.middleware);
                         }
 
                         return ([
-                            Layout && <Layout key={indexKey + 1} />,
-                            <Component key={indexKey + 2} />
+                            Layout && <Layout key={index + 1} />,
+                            <Component key={index + 2} />
                         ])
                     }}
                 />,

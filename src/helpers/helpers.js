@@ -1,6 +1,6 @@
-const helpers = {
+module.exports =  {
     getAllRoutes: function(routes) {
-        let routesArr = [];
+        const routesArr = [];
         routes.forEach(route => {
             routesArr.push(route.path);
 
@@ -13,12 +13,9 @@ const helpers = {
 
         return routesArr;
     },
-    runMiddlewares(data, middlewares) {
+    emitMiddlewares(hystory, middlewares) {
         middlewares.length && middlewares.forEach(func => {
-            func(data);
+            func(hystory);
         })
     }
 };
-
-export default helpers;
-

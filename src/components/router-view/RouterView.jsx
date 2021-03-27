@@ -2,11 +2,12 @@ import router from '../../router';
 import React, { useEffect } from 'react'
 import { BrowserRouter } from 'react-router-dom';
 
+import { getAllRoutes } from '../../helpers/helpers';
+import { MODE }  from '../../config/env';
+
 import ReactRoute from "../react-route/ReactRoute";
-import helpers from '../../helpers/helpers';
 import NotFound from "../not-found/NotFound";
 
-import { MODE }  from '../../config/env';
 
 export default function RouterView() {
     useEffect(() => {
@@ -17,20 +18,20 @@ export default function RouterView() {
         }
     }, []);
 
-    const { getAllRoutes } = helpers;
     if (!getAllRoutes(router.routes).includes(window.location.pathname)) {
         return <NotFound />;
     }
 
     return (
         <BrowserRouter>
+            <h1>Header</h1>
             {
                 router.routes.map((route, index) => {
                     return (
                         <ReactRoute
                             route={ route }
                             key={ index }
-                            indexKey={index}
+                            index={index}
                         />
                    )
                 })
